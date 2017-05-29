@@ -25,8 +25,7 @@ use v5.10.1;
 use App::nodie;
 
 
-BEGIN
-{
+BEGIN {
 	our $VERSION     = '1.01';
 }
 

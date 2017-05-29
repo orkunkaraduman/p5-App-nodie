@@ -4,7 +4,7 @@ App::nodie - runs immortal processes
 
 # VERSION
 
-version 1.00
+version 1.01
 
 # SYNOPSIS
 
@@ -15,7 +15,7 @@ version 1.00
 
 App::nodie runs immortal processes.
 
-See also: [nodie.pl](https://metacpan.org/pod/distribution/App-Virtualenv/lib/App/nodie/nodie.pl)
+See also: [nodie.pl](https://metacpan.org/pod/distribution/App-nodie/lib/App/nodie/nodie.pl)
 
 # INSTALLATION
 
