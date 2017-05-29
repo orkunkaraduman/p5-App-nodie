@@ -16,7 +16,7 @@ version 1.01
 
 App::nodie runs immortal processes.
 
-See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-Virtualenv/lib/App/nodie/nodie.pl>
+See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-nodie/lib/App/nodie/nodie.pl>
 
 =cut
 use strict;
