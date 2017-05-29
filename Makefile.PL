@@ -8,12 +8,15 @@ WriteMakefile(
 	VERSION_FROM		=> 'lib/App/nodie.pm',
 	MIN_PERL_VERSION	=> '5.010001',
 	PREREQ_PM			=> {
-		'Lazy::Utils'	=> '1.19',
+		'Scalar::Util'	=> '1.47',
+		'Lazy::Utils'	=> '1.20',
 	},
 	EXE_FILES			=> [qw(
+		lib/App/nodie/nodie.pl
+		lib/App/nodie/nodie
 	)],
 	AUTHOR				=> 'Orkun Karaduman <orkunkaraduman@gmail.com>',
-	ABSTRACT			=> '',
+	ABSTRACT			=> 'runs immortal processes',
 	LICENSE				=> 'gpl_3',
 	META_MERGE			=> {
 		'meta-spec'		=> {
