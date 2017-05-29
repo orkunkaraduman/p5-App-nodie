@@ -1,12 +1,21 @@
 # NAME
 
-App::nodie - 
+App::nodie - runs immortal processes
 
 # VERSION
 
 version 1.00
 
 # SYNOPSIS
+
+        #!/bin/sh
+        perl -MApp::nodie -erun -- command arg1 arg2 ...
+
+# DESCRIPTION
+
+App::nodie runs immortal processes.
+
+See also: [nodie.pl](https://metacpan.org/pod/distribution/App-Virtualenv/lib/App/nodie/nodie.pl)
 
 # INSTALLATION
 
@@ -25,6 +34,7 @@ from CPAN
 
 This module requires these other modules and libraries:
 
+- Scalar::Util
 - Lazy::Utils
 
 # REPOSITORY

@@ -1,7 +1,7 @@
 package App::nodie;
 =head1 NAME
 
-App::nodie - 
+App::nodie - runs immortal processes
 
 =head1 VERSION
 
@@ -9,12 +9,23 @@ version 1.00
 
 =head1 SYNOPSIS
 
+	#!/bin/sh
+	perl -MApp::nodie -erun -- command arg1 arg2 ...
+
+=head1 DESCRIPTION
+
+App::nodie runs immortal processes.
+
+See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-Virtualenv/lib/App/nodie/nodie.pl>
+
 =cut
 use strict;
 use warnings;
 use v5.10.1;
 use feature qw(switch);
 no if ($] >= 5.018), 'warnings' => 'experimental';
+use FindBin;
+use File::Basename;
 use Scalar::Util qw(looks_like_number);
 use Lazy::Utils;
 
@@ -30,6 +41,15 @@ BEGIN {
 
 sub main {
 	my $cmdargs = cmdargs({ valuableArgs => 0, noCommand => 1, optionAtAll => 0 }, @_);
+	if (defined($cmdargs->{'-h'}) or defined($cmdargs->{'--help'}))
+	{
+		my @lines;
+		@lines = get_pod_text(dirname(__FILE__)."/nodie/nodie.pl", "SYNOPSIS");
+		@lines = get_pod_text(dirname(__FILE__)."/nodie/nodie.pl", "ABSTRACT") unless defined($lines[0]);
+		$lines[0] = "nodie.pl";
+		say join("\n", @lines);
+		return 0;
+	}
 	my $arg_exitcodes = $cmdargs->{'-e'};
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
 	$arg_exitcodes = '0,2' unless defined($arg_exitcodes);
@@ -43,7 +63,7 @@ sub main {
 	}
 	my $exitcode;
 	while (not defined($exitcode) or not grep(/^$exitcode$/, @exitcodes)) {
-		$exitcode = system2(@{$cmdargs->{parameters}});
+		$exitcode = system2(@{$cmdargs->{parameters}}, @{$cmdargs->{late_parameters}});
 		die "$!\n" if $exitcode < 0;
 	}
 	return $exitcode;
@@ -74,6 +94,10 @@ from CPAN
 This module requires these other modules and libraries:
 
 =over
+
+=item *
+
+Scalar::Util
 
 =item *
 
