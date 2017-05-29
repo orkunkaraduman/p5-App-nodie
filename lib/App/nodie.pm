@@ -5,7 +5,7 @@ App::nodie - runs immortal processes
 
 =head1 VERSION
 
-version 1.00
+version 1.01
 
 =head1 SYNOPSIS
 
@@ -32,7 +32,7 @@ use Lazy::Utils;
 
 BEGIN {
 	require Exporter;
-	our $VERSION     = '1.00';
+	our $VERSION     = '1.01';
 	our @ISA         = qw(Exporter);
 	our @EXPORT      = qw(main run);
 	our @EXPORT_OK   = qw();
