@@ -31,7 +31,7 @@ By default '0,2'.
 =head3 --log
 
 B<--log> or B<-l> enables printing logs and specifies log file name/descriptor.
-If log file name/descriptor isn't speceified in argument, default is '&STDERR'.
+If log file name/descriptor isn't specified in argument, default is '&STDERR'.
 '-' is synonym with '&STDOUT'. File descriptors must start with '&', eg '&2'.
 
 =cut
