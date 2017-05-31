@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 =head1 NAME
 
-nodie.pl - runs immortal processes
+nodie.pl -runs processes again when its dead
 
 =head1 VERSION
 

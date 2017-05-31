@@ -1,7 +1,7 @@
 package App::nodie;
 =head1 NAME
 
-App::nodie - runs immortal processes
+App::nodie - runs processes again when its dead
 
 =head1 VERSION
 

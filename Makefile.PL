@@ -16,7 +16,7 @@ WriteMakefile(
 		lib/App/nodie/nodie
 	)],
 	AUTHOR				=> 'Orkun Karaduman <orkunkaraduman@gmail.com>',
-	ABSTRACT			=> 'runs immortal processes',
+	ABSTRACT			=> 'runs processes again when its dead',
 	LICENSE				=> 'gpl_3',
 	META_MERGE			=> {
 		'meta-spec'		=> {
