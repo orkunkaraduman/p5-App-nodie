@@ -1,7 +1,7 @@
 package App::nodie;
 =head1 NAME
 
-App::nodie - runs processes again when its dead
+App::nodie - runs command again when its dead
 
 =head1 VERSION
 
@@ -14,7 +14,7 @@ version 1.01
 
 =head1 DESCRIPTION
 
-App::nodie runs immortal processes.
+App::nodie runs command again when its dead.
 
 See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-nodie/lib/App/nodie/nodie.pl>
 
@@ -57,7 +57,7 @@ sub main {
 	}
 	my $arg_exitcodes = $cmdargs->{'-e'};
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
-	$arg_exitcodes = '0,2' unless defined($arg_exitcodes);
+	$arg_exitcodes = "" unless defined($arg_exitcodes);
 	my @exitcodes = split(/\s*,\s*/, $arg_exitcodes);
 	while (my ($key, $value) = each @exitcodes) {
 		unless (looks_like_number($value) and $value == int($value) and $value >= 0) {
@@ -66,6 +66,7 @@ sub main {
 		}
 		$exitcodes[$key] = int($value);
 	}
+	push @exitcodes, 0, 2 unless @exitcodes;
 	my $arg_log = $cmdargs->{'-l'};
 	$arg_log = $cmdargs->{'--log'} unless defined($arg_log);
 	my $log_fh;
