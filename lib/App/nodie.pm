@@ -1,11 +1,11 @@
 package App::nodie;
 =head1 NAME
 
-App::nodie - runs immortal processes
+App::nodie - runs command again when its dead
 
 =head1 VERSION
 
-version 1.00
+version 1.01
 
 =head1 SYNOPSIS
 
@@ -14,9 +14,9 @@ version 1.00
 
 =head1 DESCRIPTION
 
-App::nodie runs immortal processes.
+App::nodie runs command again when its dead.
 
-See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-Virtualenv/lib/App/nodie/nodie.pl>
+See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-nodie/lib/App/nodie/nodie.pl>
 
 =cut
 use strict;
@@ -32,12 +32,17 @@ use Lazy::Utils;
 
 BEGIN {
 	require Exporter;
-	our $VERSION     = '1.00';
+	our $VERSION     = '1.01';
 	our @ISA         = qw(Exporter);
 	our @EXPORT      = qw(main run);
 	our @EXPORT_OK   = qw();
 }
 
+
+sub get_logtime {
+	my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime();
+	return sprintf("[%04d-%02d-%02d %02d:%02d:%02d]", $year+1900, $mon+1, $mday, $hour, $min, $sec);
+}
 
 sub main {
 	my $cmdargs = cmdargs({ valuableArgs => 0, noCommand => 1, optionAtAll => 0 }, @_);
@@ -52,7 +57,7 @@ sub main {
 	}
 	my $arg_exitcodes = $cmdargs->{'-e'};
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
-	$arg_exitcodes = '0,2' unless defined($arg_exitcodes);
+	$arg_exitcodes = "" unless defined($arg_exitcodes);
 	my @exitcodes = split(/\s*,\s*/, $arg_exitcodes);
 	while (my ($key, $value) = each @exitcodes) {
 		unless (looks_like_number($value) and $value == int($value) and $value >= 0) {
@@ -61,11 +66,30 @@ sub main {
 		}
 		$exitcodes[$key] = int($value);
 	}
+	push @exitcodes, 0, 2 unless @exitcodes;
+	my $arg_log = $cmdargs->{'-l'};
+	$arg_log = $cmdargs->{'--log'} unless defined($arg_log);
+	my $log_fh;
+	if (defined($arg_log)) {
+		$arg_log = "&STDERR" if $arg_log =~ /^\s*$/;
+		$arg_log = "&STDOUT" if $arg_log =~ /^\s*\-\s*$/;
+		my $mode = "";
+		if ($arg_log =~ /^&(.*)$/) {
+			$mode .= "&";
+			$arg_log = $1;
+		}
+		open($log_fh, ">>".$mode, $arg_log) or undef($log_fh);
+		warn "Can't open log file $mode$arg_log: $!\n" unless defined($log_fh);
+	}
 	my $exitcode;
-	while (not defined($exitcode) or not grep(/^$exitcode$/, @exitcodes)) {
+	do {
+		sleep 1 if defined($exitcode);
+		print $log_fh get_logtime()." ".(defined($exitcode)? "Restarting": "Starting")."...\n" if defined($log_fh);
+		sleep 1 if defined($exitcode);
 		$exitcode = system2(@{$cmdargs->{parameters}}, @{$cmdargs->{late_parameters}});
 		die "$!\n" if $exitcode < 0;
-	}
+		print $log_fh get_logtime()." Returned exit code: $exitcode\n" if defined($log_fh);
+	} while (not grep(/^$exitcode$/, @exitcodes));
 	return $exitcode;
 }
 
