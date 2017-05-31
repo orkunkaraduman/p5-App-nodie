@@ -83,11 +83,12 @@ sub main {
 	}
 	my $exitcode;
 	do {
+		sleep 1 if defined($exitcode);
 		print $log_fh get_logtime()." ".(defined($exitcode)? "Restarting": "Starting")."...\n" if defined($log_fh);
+		sleep 1 if defined($exitcode);
 		$exitcode = system2(@{$cmdargs->{parameters}}, @{$cmdargs->{late_parameters}});
 		die "$!\n" if $exitcode < 0;
 		print $log_fh get_logtime()." Returned exit code: $exitcode\n" if defined($log_fh);
-		sleep 1;
 	} while (not grep(/^$exitcode$/, @exitcodes));
 	return $exitcode;
 }
