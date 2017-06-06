@@ -21,7 +21,7 @@ See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-nodie/lib/App/nod
 =cut
 use strict;
 use warnings;
-use v5.14;
+use v5.10.1;
 use feature qw(switch);
 no if ($] >= 5.018), 'warnings' => 'experimental';
 use FindBin;
@@ -59,7 +59,8 @@ sub main {
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
 	$arg_exitcodes = "" unless defined($arg_exitcodes);
 	my @exitcodes = split(/\s*,\s*/, $arg_exitcodes);
-	while (my ($key, $value) = each @exitcodes) {
+	while (my $key = each @exitcodes) {
+		my $value = $exitcodes[$key];
 		unless (looks_like_number($value) and $value == int($value) and $value >= 0) {
 			delete $exitcodes[$key];
 			next;
