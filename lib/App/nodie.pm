@@ -5,7 +5,7 @@ App::nodie - runs command again when its dead
 
 =head1 VERSION
 
-version 1.01
+version 1.02
 
 =head1 SYNOPSIS
 
@@ -32,7 +32,7 @@ use Lazy::Utils;
 
 BEGIN {
 	require Exporter;
-	our $VERSION     = '1.01';
+	our $VERSION     = '1.02';
 	our @ISA         = qw(Exporter);
 	our @EXPORT      = qw(main run);
 	our @EXPORT_OK   = qw();
@@ -59,7 +59,8 @@ sub main {
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
 	$arg_exitcodes = "" unless defined($arg_exitcodes);
 	my @exitcodes = split(/\s*,\s*/, $arg_exitcodes);
-	while (my ($key, $value) = each @exitcodes) {
+	while (my $key = each @exitcodes) {
+		my $value = $exitcodes[$key];
 		unless (looks_like_number($value) and $value == int($value) and $value >= 0) {
 			delete $exitcodes[$key];
 			next;
