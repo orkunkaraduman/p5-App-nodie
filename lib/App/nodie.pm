@@ -21,7 +21,7 @@ See also: L<nodie.pl|https://metacpan.org/pod/distribution/App-nodie/lib/App/nod
 =cut
 use strict;
 use warnings;
-use v5.10.1;
+use v5.14;
 use feature qw(switch);
 no if ($] >= 5.018), 'warnings' => 'experimental';
 use FindBin;

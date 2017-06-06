@@ -37,7 +37,7 @@ If log file name/descriptor isn't specified in argument, default is '&STDERR'.
 =cut
 use strict;
 use warnings;
-use v5.10.1;
+use v5.14;
 
 use App::nodie;
 
