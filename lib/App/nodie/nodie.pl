@@ -5,7 +5,7 @@ nodie.pl - runs command again when its dead
 
 =head1 VERSION
 
-version 1.01
+version 1.02
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,7 @@ use App::nodie;
 
 
 BEGIN {
-	our $VERSION     = '1.01';
+	our $VERSION     = '1.02';
 }
 
 
