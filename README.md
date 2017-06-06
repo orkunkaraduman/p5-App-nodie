@@ -4,7 +4,7 @@ App::nodie - runs command again when its dead
 
 # VERSION
 
-version 1.01
+version 1.02
 
 # SYNOPSIS
 
