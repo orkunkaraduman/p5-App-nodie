@@ -5,7 +5,7 @@ App::nodie - runs command again when its dead
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 SYNOPSIS
 
@@ -32,7 +32,7 @@ use Lazy::Utils;
 
 BEGIN {
 	require Exporter;
-	our $VERSION     = '1.02';
+	our $VERSION     = '1.03';
 	our @ISA         = qw(Exporter);
 	our @EXPORT      = qw(main run);
 	our @EXPORT_OK   = qw();
