@@ -5,7 +5,7 @@ App::nodie - runs command again when its dead
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 SYNOPSIS
 
@@ -32,7 +32,7 @@ use Lazy::Utils;
 
 BEGIN {
 	require Exporter;
-	our $VERSION     = '1.02';
+	our $VERSION     = '1.03';
 	our @ISA         = qw(Exporter);
 	our @EXPORT      = qw(main run);
 	our @EXPORT_OK   = qw();
@@ -82,12 +82,14 @@ sub main {
 		open($log_fh, ">>".$mode, $arg_log) or undef($log_fh);
 		warn "Can't open log file $mode$arg_log: $!\n" unless defined($log_fh);
 	}
+	my @params = (@{$cmdargs->{parameters}}, @{$cmdargs->{late_parameters}});
+	die "command is not specified\n" unless @params;
 	my $exitcode;
 	do {
 		sleep 1 if defined($exitcode);
 		print $log_fh get_logtime()." ".(defined($exitcode)? "Restarting": "Starting")."...\n" if defined($log_fh);
 		sleep 1 if defined($exitcode);
-		$exitcode = system2(@{$cmdargs->{parameters}}, @{$cmdargs->{late_parameters}});
+		$exitcode = system2(@params);
 		die "$!\n" if $exitcode < 0;
 		print $log_fh get_logtime()." Returned exit code: $exitcode\n" if defined($log_fh);
 	} while (not grep(/^$exitcode$/, @exitcodes));
