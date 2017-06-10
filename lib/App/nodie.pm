@@ -59,14 +59,16 @@ sub main {
 	$arg_exitcodes = $cmdargs->{'--exitcodes'} unless defined($arg_exitcodes);
 	$arg_exitcodes = "" unless defined($arg_exitcodes);
 	my @exitcodes = split(/\s*,\s*/, $arg_exitcodes);
-	while (my $key = each @exitcodes) {
-		my $value = $exitcodes[$key];
+	my %exitcodes = array_to_hash(@exitcodes);
+	while (my $key = each %exitcodes) {
+		my $value = $exitcodes{$key};
 		unless (looks_like_number($value) and $value == int($value) and $value >= 0) {
-			delete $exitcodes[$key];
+			delete $exitcodes{$key};
 			next;
 		}
-		$exitcodes[$key] = int($value);
+		$exitcodes{$key} = int($value);
 	}
+	@exitcodes = values %exitcodes;
 	push @exitcodes, 0, 2 unless @exitcodes;
 	my $arg_log = $cmdargs->{'-l'};
 	$arg_log = $cmdargs->{'--log'} unless defined($arg_log);
